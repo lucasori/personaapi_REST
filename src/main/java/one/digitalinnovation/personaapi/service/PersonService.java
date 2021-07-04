@@ -1,5 +1,6 @@
 package one.digitalinnovation.personaapi.service;
 
+import lombok.AllArgsConstructor;
 import one.digitalinnovation.personaapi.dto.MessageResponseDTO;
 import one.digitalinnovation.personaapi.dto.resquest.PersonDTO;
 import one.digitalinnovation.personaapi.entity.Person;
@@ -16,17 +17,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonService {
 
     private final PersonReporsitory personReporsitory;
 
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
-
-    @Autowired
-    public PersonService(PersonReporsitory personReporsitory){
-        this.personReporsitory = personReporsitory;
-    }
-
 
     public MessageResponseDTO createPerson(@RequestBody PersonDTO personDTO){
         Person personToSave = personMapper.toModel(personDTO);
