@@ -2,17 +2,14 @@ package one.digitalinnovation.personaapi.controller;
 
 
 import lombok.AllArgsConstructor;
-import one.digitalinnovation.personaapi.dto.MessageResponseDTO;
-import one.digitalinnovation.personaapi.dto.resquest.PersonDTO;
-import one.digitalinnovation.personaapi.entity.Person;
+import one.digitalinnovation.personaapi.dto.response.MessageResponseDTO;
+import one.digitalinnovation.personaapi.dto.request.PersonDTO;
 import one.digitalinnovation.personaapi.exception.PersonNotFoundException;
-import one.digitalinnovation.personaapi.repository.PersonReporsitory;
-import one.digitalinnovation.personaapi.service.PersonService;
+import one.digitalinnovation.personaapi.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.annotation.HttpConstraint;
 import javax.validation.Valid;
 import java.util.List;
 

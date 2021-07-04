@@ -1,38 +1,36 @@
-package one.digitalinnovation.personaapi.service;
+package one.digitalinnovation.personaapi.services;
 
 import lombok.AllArgsConstructor;
-import one.digitalinnovation.personaapi.dto.MessageResponseDTO;
-import one.digitalinnovation.personaapi.dto.resquest.PersonDTO;
-import one.digitalinnovation.personaapi.entity.Person;
+import one.digitalinnovation.personaapi.dto.response.MessageResponseDTO;
+import one.digitalinnovation.personaapi.dto.request.PersonDTO;
+import one.digitalinnovation.personaapi.entities.Person;
 import one.digitalinnovation.personaapi.exception.PersonNotFoundException;
 import one.digitalinnovation.personaapi.mapper.PersonMapper;
-import one.digitalinnovation.personaapi.repository.PersonReporsitory;
+import one.digitalinnovation.personaapi.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.persistence.PersistenceException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PersonService {
 
-    private final PersonReporsitory personReporsitory;
+    private final PersonRepository personRepository;
 
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
     public MessageResponseDTO createPerson(@RequestBody PersonDTO personDTO){
         Person personToSave = personMapper.toModel(personDTO);
 
-        Person savePerson = personReporsitory.save(personToSave);
+        Person savePerson = personRepository.save(personToSave);
         return createMessageResponse(savePerson.getId(), "Created personDTO with ID ");
     }
 
     public List<PersonDTO> listAll() {
-        List<Person> allPeople = personReporsitory.findAll();
+        List<Person> allPeople = personRepository.findAll();
 
         return allPeople.stream()
                 .map(personMapper::toDTO)
@@ -49,20 +47,20 @@ public class PersonService {
     public void delete(Long id) throws PersonNotFoundException {
        verifyIfExists(id);
 
-        personReporsitory.deleteById(id);
+        personRepository.deleteById(id);
     }
 
     public MessageResponseDTO updateById(Long id, PersonDTO personDTO) throws PersonNotFoundException {
         verifyIfExists(id);
         Person personToUpdate = personMapper.toModel(personDTO);
 
-        Person updatePerson = personReporsitory.save(personToUpdate);
+        Person updatePerson = personRepository.save(personToUpdate);
         return createMessageResponse(updatePerson.getId(), "Update personDTO with ID ");
     }
 
 
     private Person verifyIfExists(Long id) throws PersonNotFoundException {
-        return personReporsitory.findById(id)
+        return personRepository.findById(id)
                 .orElseThrow(() -> new PersonNotFoundException(id));
     }
 
